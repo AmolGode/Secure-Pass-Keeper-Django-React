@@ -20,14 +20,11 @@ function AddPasswordStoreForm() {
         formData.append('user_password', passwordStoreData.login_password)
         const response = await api.post('password_store/add-to-store/', formData);
   
-        console.log(response)
-  
         if(response.status == 201)
         {
           alert("Password Stored successfully..!")
           navigate('/dashboard') //To remove action title from url
           const responseData = await response.json();
-          console.log(responseData)
           navigate('/dashboard')
         }else if(response.status == 401)
         {
@@ -44,10 +41,10 @@ function AddPasswordStoreForm() {
     };
   
     const [passwordStoreData, setPasswordStoreData] = useState({
-      title: 'This is title',
-      description: 'This is descroiption.',
-      password_to_store: 'Passsss@12312312',
-      login_password: 'Pass@123'
+      title: '',
+      description: '',
+      password_to_store: '',
+      login_password: ''
     });
 
     
@@ -63,7 +60,7 @@ function AddPasswordStoreForm() {
                     <Form.Label>Password Title</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="App Name.."
+                        placeholder="Password Title"
                         autoFocus
                         value={passwordStoreData.title} onChange={(e) => setPasswordStoreData({ ...passwordStoreData, title: e.target.value })}
                     />

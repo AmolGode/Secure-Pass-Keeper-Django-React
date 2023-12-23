@@ -2,8 +2,6 @@ import Cookies from 'js-cookie';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-console.log("BASE_URL=> ", BASE_URL)
-
 
 // const handleResponse = (response) => {
 //   if (!response.ok) {
@@ -15,7 +13,6 @@ console.log("BASE_URL=> ", BASE_URL)
 const api = {
   get: async (endpoint) => {
     let accessToken = Cookies.get('access_token');
-    console.log("accessToken=>", accessToken)
     try {
       let response = await fetch(`${BASE_URL}/${endpoint}`, {
         method: 'GET',
@@ -82,6 +79,7 @@ const api = {
   },
 
   refreshToken: async () => {
+    console.log("Access token expire..!")
     const refresh_token = Cookies.get('refresh_token');
 
     // Make a request to your server to refresh the token
@@ -92,11 +90,11 @@ const api = {
       body: formData
     });
 
-    // Parse and return the response
     if (refreshResponse.status == 200) {
       const responseData = await refreshResponse.json();
       Cookies.set('access_token', responseData.access)
-      console.log("Access Token Refresh.", responseData.access)
+
+      console.log("New access_token", responseData.access)
     }
 
   }

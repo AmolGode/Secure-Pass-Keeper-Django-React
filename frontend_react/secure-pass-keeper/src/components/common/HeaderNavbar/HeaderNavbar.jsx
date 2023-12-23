@@ -54,6 +54,10 @@ function HeaderNavbar() {
   const handleLogout = () => {
     Cookies.remove('access_token');
     Cookies.remove('refresh_token');
+    Cookies.remove('email');
+    Cookies.remove('phone');
+    Cookies.remove('first_name');
+    Cookies.remove('last_name');
     navigate("/")
   }
 

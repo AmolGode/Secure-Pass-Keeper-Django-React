@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MDBContainer,
   MDBTabs,
@@ -25,7 +25,7 @@ import { faRobot } from '@fortawesome/free-solid-svg-icons';
 function LoginSignup() {
   const navigate = useNavigate();
   
-  const [justifyActive, setJustifyActive] = useState('tab1');;
+  const [justifyActive, setJustifyActive] = useState('tab1');
 
 
   const handleJustifyClick = (value) => {
@@ -35,12 +35,22 @@ function LoginSignup() {
     setJustifyActive(value);
   };
 
+
+  useEffect(() => {
+    const isAuthenticated = Cookies.get('access_token') != null;
+
+    if (isAuthenticated) {
+      // Use navigate within useEffect to avoid the warning
+      navigate('/dashboard');
+    }
+  }, []);
+
   const [signupData, setSignupData] = useState({
-    firstName: 'Amol',
-    lastName: 'Gode',
-    email: 'a@gmail.com',
-    phone: '8830000002',
-    password: '1234',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
     repeatPassword: ''
   });
 
@@ -52,6 +62,31 @@ function LoginSignup() {
 
   const handleSignup = async () => {
     try {
+      if(signupData.firstName == '')
+      {
+        alert("First Name is Required.")
+        return
+      }else if(signupData.lastName == '')
+      {
+        alert("Last Name is Required.")
+        return
+      }else if(signupData.email == '')
+      {
+        alert("Email Id is Required.")
+        return
+      }if(signupData.phone == '' || signupData.phone.length != 10)
+      {
+        alert("Invalid Phone Number.")
+        return
+      }else if(signupData.password.length < 8)
+      {
+        alert("Password length must be greater than 8.")
+        return
+      }else if(signupData.password != signupData.repeatPassword)
+      {
+        alert("Password and repeate password must be equal.")
+        return
+      }
       const formData = new FormData()
       formData.append('first_name', signupData.firstName)
       formData.append('last_name', signupData.lastName)
@@ -82,7 +117,6 @@ function LoginSignup() {
 
   const handleLogin = async () => {
     try {
-      console.log('Login Process', loginData)
       const formData = new FormData()
       formData.append('email', loginData.email)
       formData.append('password', loginData.password)
@@ -149,7 +183,7 @@ function LoginSignup() {
                 </div> */}
 
                 <Button className="mb-4 w-100 custom-button" onClick={handleLogin} >Sign in</Button>
-                <p className="text-center">Not a member? <a href="#!">Register</a></p>
+                <p className="text-center">Not a member? <a href="#!" onClick={() => handleJustifyClick('tab2')} active={justifyActive === 'tab2'}>Register</a></p>
 
               </MDBTabsPane>
 
@@ -162,13 +196,13 @@ function LoginSignup() {
                 <MDBInput wrapperClass='mb-4' placeholder='First Name' type='text' value={signupData.firstName} onChange={(e) => setSignupData({ ...signupData, firstName: e.target.value })} />
                 <MDBInput wrapperClass='mb-4' placeholder='Last Name' type='text' value={signupData.lastName} onChange={(e) => setSignupData({ ...signupData, lastName: e.target.value })} />
                 <MDBInput wrapperClass='mb-4' placeholder='Email' type='email' value={signupData.email} onChange={(e) => setSignupData({ ...signupData, email: e.target.value })} />
-                <MDBInput wrapperClass='mb-4' placeholder='Phone Number' type='tel' value={signupData.phone} onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })} />
+                <MDBInput wrapperClass='mb-4' placeholder='Phone Number' type='number' value={signupData.phone} onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })} />
                 <MDBInput wrapperClass='mb-4' placeholder='Password' type='password' value={signupData.password} onChange={(e) => setSignupData({ ...signupData, password: e.target.value })} />
-                <MDBInput wrapperClass='mb-4' placeholder='Repeat Password' type='password' />
+                <MDBInput wrapperClass='mb-4' placeholder='Repeat Password' type='password' value={signupData.repeatPassword} onChange={(e) => setSignupData({ ...signupData, repeatPassword: e.target.value })} />
 
-                <div className='d-flex justify-content-center mb-4'>
+                {/* <div className='d-flex justify-content-center mb-4'>
                   <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='I have read and agree to the terms' />
-                </div>
+                </div> */}
 
                 <Button className="mb-4 w-100" onClick={handleSignup}>Sign up</Button>
 

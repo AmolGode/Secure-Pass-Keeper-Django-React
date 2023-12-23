@@ -14,11 +14,16 @@ const Dashboard = () => {
   const [allPassStoreData, setAllPassStoreData] = useState(passStoreData);
 
   const [searchQuery, setSearchQuery] = useState('');
+
   const navigate = useNavigate()
 
   const handleLogout = () => {
     Cookies.remove('access_token');
     Cookies.remove('refresh_token');
+    Cookies.remove('email');
+    Cookies.remove('phone');
+    Cookies.remove('first_name');
+    Cookies.remove('last_name');
     navigate("/")
   }
 
@@ -30,7 +35,6 @@ const Dashboard = () => {
           const responseData = await response.json();
           setPassStoreData(responseData);
           setAllPassStoreData(responseData)
-          console.log("responseData => ", responseData)
         } else if (response.status == 401) {
           alert("Your token is expired. Please login again.")
           handleLogout()
@@ -58,7 +62,6 @@ const Dashboard = () => {
     );
 
     setPassStoreData(matchingObjs)
-    console.log(searchQuery, matchingObjs)
   }
 
 
@@ -77,7 +80,7 @@ const Dashboard = () => {
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
-                value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchQuery} onChange={(e) => {setSearchQuery(e.target.value)}}
               />
               <Button variant="outline-success" onClick={handleSearch}>Search</Button>
             </Form>
