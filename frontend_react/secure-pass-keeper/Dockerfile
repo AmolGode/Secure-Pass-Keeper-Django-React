@@ -7,6 +7,9 @@ WORKDIR /frontend
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
+# Unset NODE_ENV to install devDependencies
+ENV NODE_ENV=
+
 # Install dependencies
 RUN npm install --production=false
 
