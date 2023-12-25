@@ -7,19 +7,15 @@ WORKDIR /frontend
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Unset NODE_ENV to install devDependencies
-ENV NODE_ENV=
+RUN npm create vite@latest
 
 # Install dependencies
-RUN npm install --production=false
-
-# Install Vite globally
-RUN npm install -g create-vite
+RUN npm install
 
 # Copy the rest of the application code
 COPY . /frontend
 
-# Build the React apps
+# Build the React app
 RUN npm run build
 
 # Expose the port that the app will run on
