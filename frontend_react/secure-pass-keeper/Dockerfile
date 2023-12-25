@@ -13,6 +13,9 @@ ENV NODE_ENV=
 # Install dependencies
 RUN npm install --production=false
 
+# Install Vite globally
+RUN npm install -g create-vite
+
 # Copy the rest of the application code
 COPY . /frontend
 
