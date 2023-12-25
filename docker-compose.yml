@@ -31,8 +31,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5173:5173"
-    environment:
-      - REACT_APP_API_BASE_URL=http://backend:8000
+    # environment:
+    #   - REACT_APP_API_BASE_URL=http://backend:8000
     volumes:
       - ./frontend_react/secure-pass-keeper/src:/frontend/src  
       - ./frontend_react/secure-pass-keeper/public:/frontend/public  
