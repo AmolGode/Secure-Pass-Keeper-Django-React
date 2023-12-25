@@ -27,7 +27,6 @@ class SignupView(APIView):
         email = request.POST.get('email')
         phone = request.POST.get('phone')
         password = request.POST.get('password')
-        print(request.POST)
         try:
             user = ExtendedUser.objects.create(first_name=first_name, last_name=last_name, email=email, phone=phone)
             user.user_salt_bytecode = self.generate_unique_salt_bytecode()
