@@ -23,7 +23,7 @@ RUN npm run build
 EXPOSE 5173
 
 # Set environment variable for API base URL
-ENV REACT_APP_API_BASE_URL=http://127.0.0.1:8000
+ENV REACT_APP_API_BASE_URL=http://51.20.122.213:8000/
 
 # Command to run the application
 CMD ["npm", "run", "dev"]
