@@ -7,7 +7,8 @@ WORKDIR /frontend
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-RUN npm create vite@latest
+# Install Vite globally
+RUN npm install -g vite
 
 # Install dependencies
 RUN npm install
