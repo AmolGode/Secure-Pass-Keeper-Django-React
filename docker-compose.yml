@@ -3,14 +3,10 @@ version: '3'
 services:
   db:
     image: postgres:latest
-    environment:
-      POSTGRES_DB : secure_pass_db_dev
-      POSTGRES_USER: amol_gode
-      POSTGRES_PASSWORD: skp_db@123
+    env_file:
+      - ./backend_django/securePassKeeper/.env
     ports:
       - "5432:5432"
-
-
 
   backend:
     build: 
@@ -23,7 +19,9 @@ services:
       - "8000:8000"
     depends_on:
       - db
-  
+    env_file:
+    - ./backend_django/securePassKeeper/.env
+
 
   frontend:
     build:
@@ -31,13 +29,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5173:5173"
-    # environment:
-    #   - REACT_APP_API_BASE_URL=http://backend:8000
+    env_file:
+      - ./frontend_react/secure-pass-keeper/.env
     volumes:
       - ./frontend_react/secure-pass-keeper/src:/frontend/src  
       - ./frontend_react/secure-pass-keeper/public:/frontend/public  
       - ./frontend_react/secure-pass-keeper/node_modules:/frontend/node_modules
-
-
     depends_on:
       - backend
