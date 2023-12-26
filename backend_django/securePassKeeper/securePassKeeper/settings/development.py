@@ -12,7 +12,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]# "127.0.0.1"
 
-CORS_ALLOWED_ORIGINS = ['http://51.20.122.213:5173', 'http://localhost:5173']
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
 
 
 # Database
