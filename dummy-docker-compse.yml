@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    env_file:
+      - ./backend_django/securePassKeeper/.env
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: 
+      context: ./backend_django/securePassKeeper
+      dockerfile: Dockerfile 
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "securePassKeeper.wsgi:application"]
+    volumes:
+      - ./backend_django/securePassKeeper:/backend 
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+    - ./backend_django/securePassKeeper/.env
+
+
+  frontend:
+    build:
+      context: ./frontend_react/secure-pass-keeper
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./frontend_react/secure-pass-keeper/.env
+    volumes:
+      - ./frontend_react/secure-pass-keeper/src:/frontend/src  
+      - ./frontend_react/secure-pass-keeper/public:/frontend/public  
+      - ./frontend_react/secure-pass-keeper/node_modules:/frontend/node_modules
+    depends_on:
+      - backend
